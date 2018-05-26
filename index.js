@@ -1,4 +1,7 @@
-var os = require('os');
+var os = require('os'),
+    OSinfo = require('OSinfo'),
+    timeFormat = require('timeFormat'),
+    eventEmitter = require('eventEmitter');
     
 // SET ENCODING UTF-8
 process.stdin.setEncoding('utf-8');
@@ -23,6 +26,8 @@ process.stdin.on('readable', function() {
             default:
                 process.stderr.write('Wrong instruction!\n');
         };
-    }
+    } else {
+        eventEmitter.print();
+    };
     console.log(process.versions); 
 });
