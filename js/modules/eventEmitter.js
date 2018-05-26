@@ -1,1 +1,2 @@
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter,
+    emitter = new EventEmitter();
