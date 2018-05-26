@@ -20,7 +20,7 @@ process.stdin.on('readable', function() {
                 process.stdout.write('hello!\n');
                 break;
             case '/getOSinfo':
-                var OSinfo = require('./modules/OSinfo');
+                var OSinfo = require('./js/modules/OSinfo');
                 OSinfo.print();
                 break;
             default:
