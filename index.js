@@ -1,33 +1,36 @@
-var os = require('os'),
-    OSinfo = require('OSinfo'),
-    timeFormat = require('timeFormat'),
-    eventEmitter = require('eventEmitter');
-    
-// SET ENCODING UTF-8
-process.stdin.setEncoding('utf-8');
+var EventEmitter = require("events").EventEmitter,
+    OSinfo = require('./modules/OSinfo'),
+    emitter = new EventEmitter();
 
+emitter.on("beforeCommand", function (instruction) {
+    console.log('You wrote: ' + instruction + ', trying to run command');
+});
+emitter.on("afterCommand", function () {
+    console.log('Finished command');
+});
+
+process.stdin.setEncoding('utf-8');
 
 process.stdin.on('readable', function() {
     var input = process.stdin.read();
-    if(input !==null) {
+    
+    if(input !== null) {
         var instruction = input.trim();
+        emitter.emit('beforeCommand', instruction);
         switch(instruction) {
             case '/exit':
-                process.stdout.write('Quitting app\n');
+                process.stdout.write('Quiting app!');
                 process.exit();
                 break;
             case '/sayhello':
                 process.stdout.write('hello!\n');
                 break;
             case '/getOSinfo':
-                var OSinfo = require('./js/modules/OSinfo');
-                OSinfo.print();
+                OSinfo.get();
                 break;
             default:
                 process.stderr.write('Wrong instruction!\n');
         };
-    } else {
-        eventEmitter.print();
-    };
-    console.log(process.versions); 
+        emitter.emit('afterCommand');
+    }
 });
